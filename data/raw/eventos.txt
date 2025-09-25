@@ -1,0 +1,5 @@
+id=1 status=OK msg=feito
+id=2 status=FAIL msg=timeout
+id=3 status=OK msg=processado
+id=4 status=FAIL msg=erro_validacao
+id=5 status=OK msg=finalizado
