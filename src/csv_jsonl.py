@@ -2,12 +2,21 @@ import csv
 import json
 
 path = "../data/raw/vendas.csv"
-
+path_prod = "../data/raw/produtos.csv"
+path_client = "../data/raw/clientes.jsonl"
 # Ler um CSV simples (sem aspas) e gerar dicionários por linha.
 
 with open(path,encoding="utf-8") as csvfile:
     reader = csv.DictReader(csvfile)
     csv_list = list(reader)
+
+with open(path_prod,encoding="utf-8") as csvfile:
+    reader = csv.DictReader(csvfile)
+    csv_prod_list = list(reader)
+
+with open(path_client) as jsonfile:
+    json_clients_list = json.load(jsonfile)
+print(json_clients_list)
     
 # Filtrar CSV por valor > 0 e gravar o resultado em JSONL; 
 # retornar o total de registros escritos.
@@ -38,6 +47,7 @@ for i in csv_list:
         valor = float(valor_string)
     except ValueError:
         valor = None
+
 # Fazer “join” entre vendas.csv (CSV) e clientes.jsonl (JSONL) 
 # por cliente_id e escrever JSONL combinado.
 
