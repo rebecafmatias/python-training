@@ -1,5 +1,12 @@
+import csv
+path = '../data/raw/produtos.csv'
 # Ler um CSV simples (sem aspas) e gerar dicionários por linha.
 
+
+with open(path,encoding='utf-8') as csvfile:
+    reader = csv.DictReader(csvfile)
+    csv_list = list(reader)
+    
 # Filtrar CSV por valor > 0 e gravar o resultado em JSONL; 
 # retornar o total de registros escritos.
 
