@@ -1,14 +1,33 @@
 import csv
-path = '../data/raw/produtos.csv'
+import json
+
+path = "../data/raw/vendas.csv"
+
 # Ler um CSV simples (sem aspas) e gerar dicionários por linha.
 
-
-with open(path,encoding='utf-8') as csvfile:
+with open(path,encoding="utf-8") as csvfile:
     reader = csv.DictReader(csvfile)
     csv_list = list(reader)
     
 # Filtrar CSV por valor > 0 e gravar o resultado em JSONL; 
 # retornar o total de registros escritos.
+
+csv_filtered_list = []
+json_file_name = "sales.json"
+
+for i in csv_list:
+    try:
+        valor_string = i["valor"]
+        valor = float(valor_string)
+        if valor > 0:
+            csv_filtered_list.append(i)
+    except ValueError:
+        print(f"Value {valor_string} cannot be converted to float.")
+
+with open(json_file_name,"w") as f:
+    json.dump(csv_filtered_list,f,indent=4)
+
+print(f"Data saved to {json_file_name}")
 
 # Normalizar tipos: converter campos numéricos inválidos para 
 # None e pular linhas sem header completo.
