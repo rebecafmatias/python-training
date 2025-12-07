@@ -22,16 +22,22 @@ for i in csv_list:
         if valor > 0:
             csv_filtered_list.append(i)
     except ValueError:
-        print(f"Value {valor_string} cannot be converted to float.")
+        pass
+        # print(f"Value {valor_string} cannot be converted to float.")
 
 with open(json_file_name,"w") as f:
     json.dump(csv_filtered_list,f,indent=4)
 
-print(f"Data saved to {json_file_name}")
+# print(f"Data saved to {json_file_name}")
 
-# Normalizar tipos: converter campos numéricos inválidos para 
-# None e pular linhas sem header completo.
+# Normalizar tipos: converter campos numéricos inválidos para None
 
+for i in csv_list:
+    valor_string = i["valor"]
+    try:
+        valor = float(valor_string)
+    except ValueError:
+        valor = None
 # Fazer “join” entre vendas.csv (CSV) e clientes.jsonl (JSONL) 
 # por cliente_id e escrever JSONL combinado.
 
