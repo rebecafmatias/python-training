@@ -112,4 +112,3 @@ if __name__ == "__main__":
     json_values_list = read_json_file(path_client)
 
     merged_list = joining_dicts_lists_by_keys(values_list,json_values_list)
-    print(merged_list)
