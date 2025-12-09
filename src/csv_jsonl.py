@@ -6,47 +6,51 @@ path_prod = "../data/raw/produtos.csv"
 path_client = "../data/raw/clientes.jsonl"
 # Ler um CSV simples (sem aspas) e gerar dicionários por linha.
 
-with open(path,encoding="utf-8") as csvfile:
-    reader = csv.DictReader(csvfile)
-    csv_list = list(reader)
+def read_csv_file(path: str) -> list:
+    with open(path,encoding="utf-8") as csvfile:
+        reader = csv.DictReader(csvfile)
+        csv_list = list(reader)
+        return csv_list
 
-with open(path_prod,encoding="utf-8") as csvfile:
-    reader = csv.DictReader(csvfile)
-    csv_prod_list = list(reader)
+def read_json_file(path: str) -> list:
+    with open(path_client) as jsonfile:
+        json_clients_list = json.load(jsonfile)
+    print(json_clients_list)
 
-with open(path_client) as jsonfile:
-    json_clients_list = json.load(jsonfile)
-print(json_clients_list)
+    return json_clients_list
     
 # Filtrar CSV por valor > 0 e gravar o resultado em JSONL; 
 # retornar o total de registros escritos.
 
-csv_filtered_list = []
-json_file_name = "sales.json"
+def filter_csv_value_and_save_json(values_list: list) -> list:
+    csv_filtered_list = []
+    json_file_name = "sales.json"
 
-for i in csv_list:
-    try:
-        valor_string = i["valor"]
-        valor = float(valor_string)
-        if valor > 0:
-            csv_filtered_list.append(i)
-    except ValueError:
-        pass
-        # print(f"Value {valor_string} cannot be converted to float.")
+    for i in values_list:
+        try:
+            valor_string = i["valor"]
+            valor = float(valor_string)
+            if valor > 0:
+                csv_filtered_list.append(i)
+        except ValueError:
+            pass
 
-with open(json_file_name,"w") as f:
-    json.dump(csv_filtered_list,f,indent=4)
+    with open(json_file_name,"w") as f:
+        json.dump(csv_filtered_list,f,indent=4)
+
+    return csv_filtered_list
 
 # print(f"Data saved to {json_file_name}")
 
 # Normalizar tipos: converter campos numéricos inválidos para None
 
-for i in csv_list:
-    valor_string = i["valor"]
-    try:
-        valor = float(valor_string)
-    except ValueError:
-        valor = None
+def normalize_list_values(values_list: list):
+    for i in values_list:
+        valor_string = i["valor"]
+        try:
+            valor = float(valor_string)
+        except ValueError:
+            valor = None
 
 # Fazer “join” entre vendas.csv (CSV) e clientes.jsonl (JSONL) 
 # por cliente_id e escrever JSONL combinado.
