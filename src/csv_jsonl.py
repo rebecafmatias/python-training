@@ -1,9 +1,6 @@
 import csv
 import json
 
-path = "../data/raw/vendas.csv"
-path_prod = "../data/raw/produtos.csv"
-path_client = "../data/raw/clientes.jsonl"
 # Ler um CSV simples (sem aspas) e gerar dicionários por linha.
 
 def read_csv_file(path: str) -> list:
@@ -45,12 +42,19 @@ def filter_csv_value_and_save_json(values_list: list) -> list:
 # Normalizar tipos: converter campos numéricos inválidos para None
 
 def normalize_list_values(values_list: list):
+    normalized_list = []
     for i in values_list:
+        temp_dict = i
         valor_string = i["valor"]
         try:
             valor = float(valor_string)
         except ValueError:
             valor = None
+
+        temp_dict.update({"valor":valor})
+        normalized_list.append(temp_dict)
+
+    return normalized_list
 
 # Fazer “join” entre vendas.csv (CSV) e clientes.jsonl (JSONL) 
 # por cliente_id e escrever JSONL combinado.
@@ -70,3 +74,14 @@ def normalize_list_values(values_list: list):
 
 # Implementar leitura “streaming”: iterar linha a linha 
 # sem carregar o arquivo inteiro (arquivos grandes).
+
+if __name__ == "__main__":
+    
+    path_sales = "../data/raw/vendas.csv"
+    path_prod = "../data/raw/produtos.csv"
+    path_client = "../data/raw/clientes.jsonl"
+
+    values_list = read_csv_file(path_sales)
+    normalized_list = normalize_list_values(values_list)
+
+    print(normalized_list)
