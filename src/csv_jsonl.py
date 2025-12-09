@@ -70,8 +70,19 @@ def joining_dicts_lists_by_keys(sales_list: list, clients_list: list) -> list:
 
     for c in clients_list:
         clients_dict[c["cliente_id"]] = c
-    print(clients_dict)
 
+    for s in sales_list:
+        id_client = int(s["cliente_id"])
+        s_temp = s.copy()
+
+        client_info = clients_dict.get(id_client)
+
+        s_temp["nome_cliente"] = client_info["nome"]
+        s_temp["cidade_cliente"] = client_info["cidade"]
+
+        merged_list.append(s_temp)
+
+    return merged_list
 
 # Dividir CSV por mês (data_iso) em vários JSONL: um arquivo por YYYY-MM.
 
@@ -100,4 +111,5 @@ if __name__ == "__main__":
 
     json_values_list = read_json_file(path_client)
 
-    joining_dicts_lists_by_keys(values_list,json_values_list)
+    merged_list = joining_dicts_lists_by_keys(values_list,json_values_list)
+    print(merged_list)
