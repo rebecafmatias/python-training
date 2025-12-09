@@ -10,11 +10,17 @@ def read_csv_file(path: str) -> list:
         return csv_list
 
 def read_json_file(path: str) -> list:
-    with open(path_client) as jsonfile:
-        json_clients_list = json.load(jsonfile)
+    json_clients_list = []
+
+    with open(path_client,"r",encoding="utf-8") as jsonfile:
+        for i in jsonfile:
+            json_client = json.loads(i)
+            json_clients_list.append(json_client)
+            
     print(json_clients_list)
 
     return json_clients_list
+
     
 # Filtrar CSV por valor > 0 e gravar o resultado em JSONL; 
 # retornar o total de registros escritos.
@@ -84,4 +90,4 @@ if __name__ == "__main__":
     values_list = read_csv_file(path_sales)
     normalized_list = normalize_list_values(values_list)
 
-    print(normalized_list)
+    json_values_list = read_json_file(path_client)
