@@ -16,8 +16,6 @@ def read_json_file(path: str) -> list:
         for i in jsonfile:
             json_client = json.loads(i)
             json_clients_list.append(json_client)
-            
-    print(json_clients_list)
 
     return json_clients_list
 
@@ -65,6 +63,16 @@ def normalize_list_values(values_list: list):
 # Fazer “join” entre vendas.csv (CSV) e clientes.jsonl (JSONL) 
 # por cliente_id e escrever JSONL combinado.
 
+def joining_dicts_lists_by_keys(sales_list: list, clients_list: list) -> list:
+
+    clients_dict = {}
+    merged_list = []
+
+    for c in clients_list:
+        clients_dict[c["cliente_id"]] = c
+    print(clients_dict)
+
+
 # Dividir CSV por mês (data_iso) em vários JSONL: um arquivo por YYYY-MM.
 
 # Agregar total de valor por cliente_id em dicionário (sem pandas) 
@@ -91,3 +99,5 @@ if __name__ == "__main__":
     normalized_list = normalize_list_values(values_list)
 
     json_values_list = read_json_file(path_client)
+
+    joining_dicts_lists_by_keys(values_list,json_values_list)
