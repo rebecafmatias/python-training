@@ -90,10 +90,26 @@ def joining_dicts_lists_by_keys(sales_list: list, clients_list: list) -> list:
 def split_csv_into_jsonl_by_month(csv_path:str):
     csv_list = read_csv_file(csv_path)
 
+    dates_list = []
+    dates_dicts = {}
+
     for i in csv_list:
         split_date = i["data_iso"]
-        month_date = split_date[0:7]
-        print(month_date)
+        split_date = split_date[0:10]
+        
+        if split_date not in dates_list:
+            dates_list.append(split_date)
+        
+    for i in dates_list:
+        dates_dicts[i] = []
+    
+    for i in csv_list:
+        split_date = i["data_iso"]
+        split_date = split_date[0:10]
+
+        dates_dicts.get(split_date).append(i)
+
+    print(dates_dicts)
 
 # Agregar total de valor por cliente_id em dicionário (sem pandas) 
 # e salvar em JSON (não JSONL).
