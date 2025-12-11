@@ -120,21 +120,21 @@ def split_csv_into_jsonl_by_month(csv_path:str, json_file_name:str):
 # Agregar total de valor por cliente_id em dicionário (sem pandas) 
 # e salvar em JSON (não JSONL).
 
-def sum_total_sales_by_client(merged_list: list[dict]):
+def sum_total_sales_by_client(merged_list: list[dict], json_path: str):
     client_total_sales_dict = {}
     clients_listed = []
+
     for i in merged_list:
         client_id = i["cliente_id"]
         sale_value = i["valor"]
-        print(f"\nCliente: {client_id}, Valor a processar: {sale_value}")
         if client_id in clients_listed:
-            print(f"Cliente {client_id} já existe. Iremos somar o valor.")
             client_total_sales_dict[client_id] += sale_value
         else:
-            print(f"Cliente {client_id} não existe. Iremos adicionar ao dict.")
             client_total_sales_dict[client_id] = sale_value
             clients_listed.append(client_id)
-        print(client_total_sales_dict)
+    
+    with open(f"{json_path}.json","w") as f:
+        json.dump(client_total_sales_dict,f,indent=4)
 
 # Converter JSONL para CSV mantendo a ordem das chaves do primeiro registro.
 
@@ -153,6 +153,7 @@ if __name__ == "__main__":
     path_prod = "../data/raw/produtos.csv"
     path_client = "../data/raw/clientes.jsonl"
     json_file_path = "../data/processed/sales"
+    json_path_sales_client = "../data/processed/sales_clients"
 
     values_list = read_csv_file(path_sales)
     normalized_list = normalize_list_values(values_list)
@@ -161,6 +162,6 @@ if __name__ == "__main__":
 
     merged_list = joining_dicts_lists_by_keys(values_list,json_values_list)
     
-    sum_total_sales_by_client(merged_list)
+    sum_total_sales_by_client(merged_list,json_path_sales_client)
 
     # split_csv_into_jsonl_by_month(path_sales,json_file_path)
