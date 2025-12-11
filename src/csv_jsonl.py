@@ -162,6 +162,6 @@ if __name__ == "__main__":
 
     merged_list = joining_dicts_lists_by_keys(values_list,json_values_list)
     
-    sum_total_sales_by_client(merged_list,json_path_sales_client)
+    # sum_total_sales_by_client(merged_list,json_path_sales_client)
 
     # split_csv_into_jsonl_by_month(path_sales,json_file_path)
