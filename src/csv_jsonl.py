@@ -1,5 +1,6 @@
 import csv
 import json
+from datetime import datetime
 
 # Ler um CSV simples (sem aspas) e gerar dicionários por linha.
 
@@ -86,6 +87,14 @@ def joining_dicts_lists_by_keys(sales_list: list, clients_list: list) -> list:
 
 # Dividir CSV por mês (data_iso) em vários JSONL: um arquivo por YYYY-MM.
 
+def split_csv_into_jsonl_by_month(csv_path:str):
+    csv_list = read_csv_file(csv_path)
+
+    for i in csv_list:
+        split_date = i["data_iso"]
+        month_date = split_date[0:7]
+        print(month_date)
+
 # Agregar total de valor por cliente_id em dicionário (sem pandas) 
 # e salvar em JSON (não JSONL).
 
@@ -112,3 +121,6 @@ if __name__ == "__main__":
     json_values_list = read_json_file(path_client)
 
     merged_list = joining_dicts_lists_by_keys(values_list,json_values_list)
+
+
+    split_csv_into_jsonl_by_month(path_sales)
