@@ -117,10 +117,11 @@ def split_csv_into_jsonl_by_month(csv_path:str, json_file_name:str):
             json.dump(value,f,indent=4)
 
 
-    
-
 # Agregar total de valor por cliente_id em dicionário (sem pandas) 
 # e salvar em JSON (não JSONL).
+
+def sum_total_sales_by_client(merged_list: list[dict]):
+    return None
 
 # Converter JSONL para CSV mantendo a ordem das chaves do primeiro registro.
 
