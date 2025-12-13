@@ -85,9 +85,9 @@ def joining_dicts_lists_by_keys(sales_list: list, clients_list: list) -> list:
 
     return merged_list
 
-# Dividir CSV por mês (data_iso) em vários JSONL: um arquivo por YYYY-MM.
+# Dividir CSV por mês (data_iso) em vários JSON: um arquivo por YYYY-MM.
 
-def split_csv_into_jsonl_by_month(csv_path:str, json_file_name:str):
+def split_csv_into_json_by_month(csv_path:str, json_file_name:str):
     csv_list = read_csv_file(csv_path)
 
     dates_list = []
@@ -110,10 +110,8 @@ def split_csv_into_jsonl_by_month(csv_path:str, json_file_name:str):
         dates_dicts.get(split_date).append(i)
     
     for key, value in dates_dicts.items():
-        print(f"\n{key}")
-        print(value)
 
-        with open(f"{json_file_name}_{key}.jsonl","w") as f:
+        with open(f"{json_file_name}_{key}.json","w") as f:
             json.dump(value,f,indent=4)
 
 
@@ -173,8 +171,8 @@ if __name__ == "__main__":
 
     merged_list = joining_dicts_lists_by_keys(values_list,json_values_list)
 
-    convert_jsonl_to_csv("../data/processed/sales_2025-06-02.jsonl")
+    # convert_jsonl_to_csv("../data/processed/sales_2025-06-02.jsonl")
     
     # sum_total_sales_by_client(merged_list,json_path_sales_client)
 
-    # split_csv_into_jsonl_by_month(path_sales,json_file_path)
+    split_csv_into_json_by_month(path_sales,json_file_path)
