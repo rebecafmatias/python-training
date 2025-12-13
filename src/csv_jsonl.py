@@ -138,14 +138,10 @@ def sum_total_sales_by_client(merged_list: list[dict], json_path: str):
 
 # Converter JSONL para CSV mantendo a ordem das chaves do primeiro registro.
 
-def convert_jsonl_to_csv(jsonl_path:str,csv_path:str):
+def convert_jsonl_to_csv(jsonl_path:str):
     with open(jsonl_path,"r",encoding="utf-8") as jsonlfile:
-        final_list = []
-        for jsonl_list in jsonlfile:
-            jsonl_list = str(jsonl_list).replace("[","").replace("]","")
-            
-            jsonl_row = json.load(jsonl_list)
-            
+        final_list = json.load(jsonlfile)
+        print(final_list)
             #     # jsonl_list.append(jsonl_row)
 
             #     print(f"{i}")
@@ -177,7 +173,7 @@ if __name__ == "__main__":
 
     merged_list = joining_dicts_lists_by_keys(values_list,json_values_list)
 
-    convert_jsonl_to_csv("../data/processed/sales_2025-06-02.jsonl",None)
+    convert_jsonl_to_csv("../data/processed/sales_2025-06-02.jsonl")
     
     # sum_total_sales_by_client(merged_list,json_path_sales_client)
 
