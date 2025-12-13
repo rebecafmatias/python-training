@@ -136,16 +136,18 @@ def sum_total_sales_by_client(merged_list: list[dict], json_path: str):
 
 # Converter JSONL para CSV mantendo a ordem das chaves do primeiro registro.
 
-def convert_jsonl_to_csv(jsonl_path:str):
+def convert_jsonl_to_csv(jsonl_path:str,csv_path:str):
     with open(jsonl_path,"r",encoding="utf-8") as jsonlfile:
         final_list = json.load(jsonlfile)
-        print(final_list)
-            #     # jsonl_list.append(jsonl_row)
+        
+    keys = final_list[0].keys()
 
-            #     print(f"{i}")
-            #     # print(jsonl_row)
-            #     # print(jsonl_list)
+    with open(f"{csv_path}jsonfile.csv","w",newline="",encoding="utf-8") as f:
+        writer = csv.DictWriter(f,fieldnames=keys)
+        writer.writeheader()
+        writer.writerows(final_list)
 
+        # print(writer)
 
 # Validar schema mínimo: garantir a presença de chaves obrigatórias; 
 # contar e reportar linhas inválidas.
@@ -158,6 +160,7 @@ def convert_jsonl_to_csv(jsonl_path:str):
 
 if __name__ == "__main__":
     
+    path_processed = "../data/processed/"
     path_sales = "../data/raw/vendas.csv"
     path_prod = "../data/raw/produtos.csv"
     path_client = "../data/raw/clientes.jsonl"
@@ -171,7 +174,7 @@ if __name__ == "__main__":
 
     merged_list = joining_dicts_lists_by_keys(values_list,json_values_list)
 
-    # convert_jsonl_to_csv("../data/processed/sales_2025-06-02.jsonl")
+    convert_jsonl_to_csv("../data/processed/sales_2025-06-02.json",path_processed)
     
     # sum_total_sales_by_client(merged_list,json_path_sales_client)
 
